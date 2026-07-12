@@ -9,6 +9,8 @@ import connectDB from "./config/db.js";
 import authRoutes  from "./routes/authRoutes.js";
 import departmentRoutes from "./routes/departmentRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
+import badgeRoutes from "./routes/badgeRoutes.js";
+import rewardRoutes from "./routes/rewardRoutes.js";
 
 dotenv.config();
 
@@ -37,6 +39,8 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/badges", badgeRoutes);
+app.use("/api/rewards", rewardRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });
