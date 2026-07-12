@@ -18,8 +18,19 @@ import challengeParticipationRoutes from "./routes/challengeParticipationRoutes.
 import rewardRedemptionRoutes from "./routes/rewardRedemptionRoutes.js";
 import leaderboardRoutes from "./routes/leaderboardRoutes.js";
 import esgRoutes from "./routes/esgRoutes.js";
+import aiRoutes from "./routes/aiRoutes.js";
+import dashboardRoutes from "./routes/dashboardRoutes.js";
+import notificationRoutes from "./routes/notificationRoutes.js";
+import settingsRoutes from "./routes/settingsRoutes.js";
+import complianceRoutes from "./routes/complianceRoutes.js";
+import policyRoutes from "./routes/policyRoutes.js";
 
-dotenv.config();
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+dotenv.config({ path: path.join(__dirname, ".env") });
 
 const app = express();
 
@@ -55,6 +66,12 @@ app.use("/api/challenges", challengeRoutes);
 app.use("/api/challenge-participation", challengeParticipationRoutes);
 app.use("/api/leaderboard", leaderboardRoutes);
 app.use("/api/esg", esgRoutes);
+app.use("/api/ai", aiRoutes);
+app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/notifications", notificationRoutes);
+app.use("/api/settings", settingsRoutes);
+app.use("/api/compliance", complianceRoutes);
+app.use("/api/policies", policyRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });
