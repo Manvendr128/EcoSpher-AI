@@ -6,6 +6,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 
 import connectDB from "./config/db.js";
+import authRoutes  from "./routes/authRoutes.js";
 
 dotenv.config();
 
@@ -30,6 +31,8 @@ app.get("/", (req, res) => {
     environment: process.env.NODE_ENV,
   });
 });
+
+app.use("/api/auth", authRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });

@@ -1,10 +1,5 @@
 import mongoose from "mongoose";
 
-/**
- * User Schema
- * Represents an application user with role-based access,
- * gamification fields (xp, badges, rewards), and department assignment.
- */
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -55,7 +50,7 @@ const userSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
   }
 );
 
