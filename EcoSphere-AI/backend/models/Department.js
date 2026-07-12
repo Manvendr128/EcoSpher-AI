@@ -1,0 +1,60 @@
+import mongoose from "mongoose";
+
+const departmentSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, "Department name is required"],
+      trim: true,
+    },
+    code: {
+      type: String,
+      required: [true, "Department code is required"],
+      unique: true,
+      trim: true,
+      uppercase: true,
+    },
+    head: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      default: null,
+    },
+    parentDepartment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Department",
+      default: null,
+    },
+    employeeCount: {
+      type: Number,
+      default: 0,
+    },
+    environmentalScore: {
+      type: Number,
+      default: 0,
+    },
+    socialScore: {
+      type: Number,
+      default: 0,
+    },
+    governanceScore: {
+      type: Number,
+      default: 0,
+    },
+    overallScore: {
+      type: Number,
+      default: 0,
+    },
+    status: {
+      type: String,
+      enum: ["Active", "Inactive"],
+      default: "Active",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Department = mongoose.model("Department", departmentSchema);
+
+export default Department;
