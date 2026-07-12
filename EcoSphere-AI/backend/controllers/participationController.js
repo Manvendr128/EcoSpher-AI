@@ -1,5 +1,6 @@
 import Participation from "../models/Participation.js";
 import CSRActivity from "../models/CSRActivity.js";
+import User from "../models/User.js";
 
 const joinActivity = async (req, res) => {
   try {
@@ -161,9 +162,107 @@ const getAllParticipations = async (req, res) => {
   }
 };
 
+const approveParticipation = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const participation = await Participation.findById(id);
+
+    if (!participation) {
+      return res.status(404).json({
+        success: false,
+        message: "Participation record not found",
+      });
+    }
+
+    if (participation.approvalStatus !== "Pending") {
+      return res.status(400).json({
+        success: false,
+        message: "Only pending participations can be approved",
+      });
+    }
+
+    participation.approvalStatus = "Approved";
+    participation.pointsEarned = 50;
+    participation.reviewedBy = req.user.id;
+    participation.completionDate = new Date();
+
+    const updatedParticipation = await participation.save();
+
+    await User.findByIdAndUpdate(participation.employee, {
+      $inc: { xp: 50 },
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: "Participation approved and 50 XP awarded",
+      participation: updatedParticipation,
+    });
+  } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid participation ID",
+      });
+    }
+    console.error("approveParticipation() error:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Server error during approval workflow",
+    });
+  }
+};
+
+const rejectParticipation = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const participation = await Participation.findById(id);
+
+    if (!participation) {
+      return res.status(404).json({
+        success: false,
+        message: "Participation record not found",
+      });
+    }
+
+    if (participation.approvalStatus !== "Pending") {
+      return res.status(400).json({
+        success: false,
+        message: "Only pending participations can be rejected",
+      });
+    }
+
+    participation.approvalStatus = "Rejected";
+    participation.pointsEarned = 0;
+    participation.reviewedBy = req.user.id;
+    participation.completionDate = new Date();
+
+    const updatedParticipation = await participation.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Participation rejected successfully",
+      participation: updatedParticipation,
+    });
+  } catch (error) {
+    if (error.name === "CastError") {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid participation ID",
+      });
+    }
+    console.error("rejectParticipation() error:", error.message);
+    return res.status(500).json({
+      success: false,
+      message: "Server error during rejection workflow",
+    });
+  }
+};
+
 export {
   joinActivity,
   submitProof,
   getMyParticipations,
   getAllParticipations,
+  approveParticipation,
+  rejectParticipation,
 };

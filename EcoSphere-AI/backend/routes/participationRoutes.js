@@ -4,6 +4,8 @@ import {
   submitProof,
   getMyParticipations,
   getAllParticipations,
+  approveParticipation,
+  rejectParticipation,
 } from "../controllers/participationController.js";
 import { protect, authorize } from "../middleware/authMiddleware.js";
 import {
@@ -41,6 +43,20 @@ router.get(
   protect,
   authorize("Admin"),
   getAllParticipations
+);
+
+router.put(
+  "/:id/approve",
+  protect,
+  authorize("Admin", "DepartmentHead"),
+  approveParticipation
+);
+
+router.put(
+  "/:id/reject",
+  protect,
+  authorize("Admin", "DepartmentHead"),
+  rejectParticipation
 );
 
 export default router;
