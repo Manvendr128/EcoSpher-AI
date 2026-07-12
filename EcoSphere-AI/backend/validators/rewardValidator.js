@@ -50,4 +50,12 @@ const updateRewardValidator = [
     .withMessage("Status must be either Active or Inactive"),
 ];
 
-export { createRewardValidator, updateRewardValidator };
+const redeemRewardValidator = [
+  body("rewardId")
+    .notEmpty()
+    .withMessage("Reward ID is required")
+    .isMongoId()
+    .withMessage("Invalid Reward ID"),
+];
+
+export { createRewardValidator, updateRewardValidator, redeemRewardValidator };

@@ -15,6 +15,7 @@ import csrRoutes from "./routes/csrRoutes.js";
 import participationRoutes from "./routes/participationRoutes.js";
 import challengeRoutes from "./routes/challengeRoutes.js";
 import challengeParticipationRoutes from "./routes/challengeParticipationRoutes.js";
+import rewardRedemptionRoutes from "./routes/rewardRedemptionRoutes.js";
 
 dotenv.config();
 
@@ -45,6 +46,7 @@ app.use("/api/departments", departmentRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/badges", badgeRoutes);
 app.use("/api/rewards", rewardRoutes);
+app.use("/api/rewards", rewardRedemptionRoutes);
 app.use("/api/csr", csrRoutes);
 app.use("/api/participation", participationRoutes);
 app.use("/api/challenges", challengeRoutes);
