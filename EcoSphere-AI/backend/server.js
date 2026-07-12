@@ -20,6 +20,8 @@ import leaderboardRoutes from "./routes/leaderboardRoutes.js";
 import esgRoutes from "./routes/esgRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import notificationRoutes from "./routes/notificationRoutes.js";
+import settingsRoutes from "./routes/settingsRoutes.js";
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -64,6 +66,8 @@ app.use("/api/leaderboard", leaderboardRoutes);
 app.use("/api/esg", esgRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/notifications", notificationRoutes);
+app.use("/api/settings", settingsRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: "Route not found" });
